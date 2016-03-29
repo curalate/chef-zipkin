@@ -1,0 +1,53 @@
+driver:
+  name: vagrant
+  customize:
+    memory: 2048
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: ubuntu-12.04
+    run_list: apt::default
+  - name: ubuntu-14.04
+    run_list: apt::default
+
+suites:
+  - name: source_install
+    run_list:
+      - recipe[zipkin]
+    attributes:
+      java:
+        jdk_version: 8
+      zipkin:
+        install_method: source
+        collector:
+          port: 1313
+          cassandra:
+            keyspace: bluth
+        web:
+          port: 3131
+          query:
+            dest: 127.0.0.1:1313
+          log_level: WARN
+          transport_type: scribe
+          scribe:
+            port: 1313
+  - name: collector
+    run_list:
+      - recipe[zipkin::collector]
+    attributes:
+      java:
+        jdk_version: 8
+  - name: query
+    run_list:
+      - recipe[zipkin::query]
+    attributes:
+      java:
+        jdk_version: 8
+  - name: web
+    run_list:
+      - recipe[zipkin::web]
+    attributes:
+      java:
+        jdk_version: 8
