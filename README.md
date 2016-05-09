@@ -82,6 +82,7 @@ Query configuration:
 
 * `node['zipkin']['query']['admin_port']` = `nil`
 * `node['zipkin']['query']['log_level']` = `nil`
+* `node['zipkin']['query']['lookback']` = `nil`
 * `node['zipkin']['query']['port']` = `nil`
 * `node['zipkin']['query']['cassandra']['contact_points']` = `nil`
 * `node['zipkin']['query']['cassandra']['ensure_schema']` = `nil`

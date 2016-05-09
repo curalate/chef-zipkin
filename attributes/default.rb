@@ -41,6 +41,7 @@ default['zipkin']['collector']['mysql']['user'] = nil
 # Query configuration
 default['zipkin']['query']['admin_port'] = nil
 default['zipkin']['query']['log_level'] = nil
+default['zipkin']['query']['lookback'] = nil
 default['zipkin']['query']['port'] = nil
 default['zipkin']['query']['cassandra']['contact_points'] = nil
 default['zipkin']['query']['cassandra']['ensure_schema'] = nil
