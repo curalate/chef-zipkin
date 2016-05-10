@@ -19,7 +19,7 @@ end
 
 git install_dir do
   repository node['zipkin']['source']['repo']
-  revision node['zipkin']['source']['hash']
+  revision node['zipkin']['source']['ref']
   action :sync
 end
 
