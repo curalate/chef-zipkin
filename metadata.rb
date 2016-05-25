@@ -4,7 +4,7 @@ maintainer_email 'rich@curalate.com '
 license          'MIT'
 description      'Installs and configures Zipkin, a distributed tracing system.'
 long_description 'Installs and configures Zipkin, a distributed tracing system.'
-version          '0.1.0'
+version          '0.2.0'
 source_url       'https://github.com/curalate/chef-zipkin' if respond_to?(:source_url)
 issues_url       'https://github.com/curalate/chef-zipkin/issues' if respond_to?(:issues_url)
 
