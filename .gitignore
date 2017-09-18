@@ -1,6 +1,9 @@
 # Berkshelf
 Berksfile.lock
 
+# Gem
+Gemfile.lock
+
 # Kitchen
 .kitchen
 .kitchen.local.yml

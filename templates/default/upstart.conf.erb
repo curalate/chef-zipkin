@@ -1,4 +1,4 @@
-description "zipkin-<%= @service %>"
+description "zipkin"
 author "Rich Schumacher <rich@curalate.com>"
 
 start on stopped cloud-final
@@ -11,16 +11,14 @@ setuid <%= @user %>
 setgid <%= @user %>
 
 script
-    cd <%= @path %>
-
-    CLASSPATH=""
-    for JAR in <%= @path %>/build/libs/*.jar ; do
-        CLASSPATH=$CLASSPATH:$JAR
-    done
-
-    <% @env_vars.each do |k, v| %>
+    <% zipkin_env_vars.each do |k, v| %>
     <%= "export #{k}=\"#{v}\"" %>
     <% end %>
 
-    java -cp ${CLASSPATH#?} com.twitter.zipkin.<%= @service %>.Main <%= @jvm_args ? @jvm_args.map { |k, v| ["-#{k}=#{v}"] }.join(' ') : '' %> <%= @service != 'web' ? "-f config/#{@service}-#{@config_key}.scala" : '' %> >> /var/log/zipkin-<%= @service %>.log 2>&1
+    chdir <%= zipkin_version_dir %>
+    java \
+        -Dloader.path='<%= zipkin_kafka_jar_file %>,<%= zipkin_kafka_jar_file %>!/lib' \
+        -Dspring.profiles.active=kafka \
+        -cp <%= zipkin_jar_file %> \
+        org.springframework.boot.loader.PropertiesLauncher
 end script

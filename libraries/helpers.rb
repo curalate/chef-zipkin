@@ -4,32 +4,30 @@
 # Libraries:: helpers
 #
 
-module Zipkin
-  # Helper methods used to generate hashes for environment variables and JVM
-  # arguments. The templates are expected to format these as needed.
-  module Helpers
-    def generate_environment_variables(prefix, input_hash, vars_accum = {})
-      input_hash.each_pair do |k, v|
-        if v.is_a?(Hash)
-          generate_environment_variables(k, v, vars_accum)
-        elsif prefix == 'web' && k.casecmp('transport_type') == 0
-          vars_accum[k] = v
-        else
-          vars_accum["#{prefix}_#{k}"] = v
-        end
-      end
-      vars_accum.delete_if { |_, v| v.nil? }.map { |k, v| [k.upcase, v] }.to_h.sort.to_h
-    end
+def zipkin_jar_file
+  'zipkin.jar'
+end
 
-    def generate_jvm_arguments(prefix, input_hash, args_accum = {})
-      input_hash.each_pair do |k, v|
-        if v.is_a?(Hash)
-          generate_jvm_arguments("#{prefix}.#{k}", v, args_accum)
-        else
-          args_accum["#{prefix}.#{k}"] = v
-        end
-      end
-      args_accum.delete_if { |_, v| v.nil? }
-    end
+def zipkin_kafka_jar_file
+  'zipkin-collector-kafka.jar'
+end
+
+def zipkin_jar_path
+  ::File.join(zipkin_version_dir, zipkin_jar_file)
+end
+
+def zipkin_kafka_jar_path
+  ::File.join(zipkin_version_dir, zipkin_kafka_jar_file)
+end
+
+def zipkin_version_dir
+  "#{node['zipkin']['install_dir']}-#{node['zipkin']['version']}"
+end
+
+def zipkin_env_vars
+  env_vars = {}
+  node['zipkin']['env_vars'].each do |k, v|
+    env_vars[k] = v
   end
+  env_vars.delete_if { |_, v| v.nil? }.map { |k, v| [k.upcase, v] }.to_h.sort.to_h
 end

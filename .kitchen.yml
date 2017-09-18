@@ -1,53 +1,23 @@
 driver:
-  name: vagrant
-  customize:
-    memory: 2048
+  name: docker
+  use_sudo: false
+  disable_upstart: false
+  image: ubuntu-upstart:14.04
+  run_command: /sbin/init
 
 provisioner:
   name: chef_zero
+  require_chef_omnibus: 12.21.12
+  attributes:
+    java:
+      jdk_version: 8
 
 platforms:
   - name: ubuntu-12.04
-    run_list: apt::default
   - name: ubuntu-14.04
-    run_list: apt::default
 
 suites:
-  - name: source_install
+  - name: default
     run_list:
-      - recipe[zipkin]
-    attributes:
-      java:
-        jdk_version: 8
-      zipkin:
-        install_method: source
-        collector:
-          port: 1313
-          cassandra:
-            keyspace: bluth
-        web:
-          port: 3131
-          query:
-            dest: 127.0.0.1:1313
-          log_level: WARN
-          transport_type: scribe
-          scribe:
-            port: 1313
-  - name: collector
-    run_list:
-      - recipe[zipkin::collector]
-    attributes:
-      java:
-        jdk_version: 8
-  - name: query
-    run_list:
-      - recipe[zipkin::query]
-    attributes:
-      java:
-        jdk_version: 8
-  - name: web
-    run_list:
-      - recipe[zipkin::web]
-    attributes:
-      java:
-        jdk_version: 8
+      - recipe[java]
+      - recipe[zipkin::default]
