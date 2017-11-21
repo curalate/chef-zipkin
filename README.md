@@ -56,6 +56,8 @@ export ZIPKIN_UI_ENVIRONMENT="qa"
 General attributes:
 
 * `node['zipkin']['version']`: Version to install.
+* `node['zipkin']['maven_base_url']`: Maven repository to fetch artifacts from.
+Defaults to `https://repo1.maven.org/maven2`
 * `node['zipkin']['install_dir']`: Where to install the application. Defaults
 to `/opt/zipkin`.
 * `node['zipkin']['manage_user']`: Should we create the user and group?
