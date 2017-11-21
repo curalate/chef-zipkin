@@ -6,7 +6,6 @@
 
 install_dir = node['zipkin']['install_dir']
 zipkin_user = node['zipkin']['user']
-zipkin_version = node['zipkin']['version']
 
 directory zipkin_version_dir do
   owner zipkin_user
@@ -22,7 +21,7 @@ link install_dir do
 end
 
 remote_file zipkin_jar_path do
-  source "https://search.maven.org/remote_content?g=io.zipkin.java&a=zipkin-server&v=#{zipkin_version}&c=exec"
+  source zipkin_jar_remote_url
   owner zipkin_user
   group zipkin_user
   mode '0755'
@@ -30,7 +29,7 @@ remote_file zipkin_jar_path do
 end
 
 remote_file zipkin_kafka_jar_path do
-  source "https://search.maven.org/remote_content?g=io.zipkin.java&a=zipkin-autoconfigure-collector-kafka10&v=#{zipkin_version}&c=module"
+  source zipkin_kafka_jar_remote_url
   owner zipkin_user
   group zipkin_user
   mode '0755'
