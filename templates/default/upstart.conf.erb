@@ -16,7 +16,7 @@ script
     <% end %>
 
     chdir <%= zipkin_version_dir %>
-    java \
+    exec java \
         -Dloader.path='<%= zipkin_kafka_jar_file %>,<%= zipkin_kafka_jar_file %>!/lib' \
         -Dspring.profiles.active=kafka \
         -cp <%= zipkin_jar_file %> \
